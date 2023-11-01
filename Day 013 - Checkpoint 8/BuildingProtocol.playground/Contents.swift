@@ -1,9 +1,9 @@
 import Cocoa
 
 protocol Building {
-    var rooms: Int { get }
-    var cost: Int { get }
-    var agent: String { get }
+    var rooms: Int { get set }
+    var cost: Int { get set }
+    var agent: String { get set }
     func summary()
 }
 

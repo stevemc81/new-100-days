@@ -8,17 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var inputUnit = "Celcius"
+    @State private var inputUnit = "Celsius"
     @State private var outputUnit = "Fahrenheit"
     @State private var inputValue = 0.0
     @FocusState private var inputIsFocused: Bool
     
-    let unit = ["Celcius", "Fahrenheit", "Kelvin"]
+    let unit = ["Celsius", "Fahrenheit", "Kelvin"]
     
     var outputValue: Double {
         var input: Double
         
-        // Convert all inputs to Celcius
+        // Convert all inputs to Celsius
         switch inputUnit {
         case "Fahrenheit":
             input = ((inputValue - 32) * 5) / 9
@@ -28,10 +28,10 @@ struct ContentView: View {
             input = inputValue
         }
         
-        // Convert input from Celcius to output unit
+        // Convert input from Celsius to output unit
         switch outputUnit {
         case "Fahrenheit":
-            return ((input * 5) / 9) + 32
+            return ((input * 9) / 5) + 32
         case "Kelvin":
             return input + 273.15
         default:

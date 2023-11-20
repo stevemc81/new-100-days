@@ -9,9 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     let moves = ["🪨", "📃", "✂️"]
+    let winningMoves = ["📃", "✂️", "🪨"]
     
     @State private var move = Int.random(in: 0...2)
-    @State private var outcome = Bool.random()
+    @State private var shouldWin = Bool.random()
     @State private var score = 0
     @State private var questionsAsked = 0
     @State private var endOfGame = false
@@ -34,17 +35,17 @@ struct ContentView: View {
                     .font(.system(size: 200))
                 Text("And wants you to...")
                     .font(.title)
-                Text(outcome ? "WIN!" : "LOSE!")
+                Text(shouldWin ? "WIN!" : "LOSE!")
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/.bold())
                 
                 Spacer()
                 
                 Text("Make your choice!")
                     .font(.title)
-                HStack {
+                HStack(spacing: 50) {
                     ForEach(0..<3) { selection in
                         Button {
-                            // Do something
+                            buttonTapped(selection)
                         } label: {
                             Text(moves[selection])
                         }
@@ -54,10 +55,14 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                Text("Score ???")
+                Text("Score: \(score)")
                     .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/.bold())
             }
         }
+    }
+    
+    func buttonTapped(_ selection: Int) {
+        // do stuff
     }
 }
 

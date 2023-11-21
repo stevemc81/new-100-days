@@ -42,7 +42,7 @@ struct ContentView: View {
                 
                 Text("Make your choice!")
                     .font(.title)
-                HStack(spacing: 50) {
+                HStack(spacing: 30) {
                     ForEach(0..<3) { selection in
                         Button {
                             buttonTapped(selection)
@@ -50,19 +50,63 @@ struct ContentView: View {
                             Text(moves[selection])
                         }
                         .font(.system(size: 75))
+                        .buttonStyle(.bordered)
                     }
                 }
                 
                 Spacer()
                 
                 Text("Score: \(score)")
-                    .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/.bold())
+                    .font(.title.bold())
             }
+        }
+        .alert("Game over", isPresented: $endOfGame) {
+            Button("Start again", action: resetGame)
+        } message: {
+            Text("Your final score is \(score)")
         }
     }
     
     func buttonTapped(_ selection: Int) {
-        // do stuff
+        var result: Bool
+        
+        if moves[selection] == moves[move] {
+            result = false
+        } else if shouldWin && moves[selection] == winningMoves[move] {
+            result = true
+        } else if !shouldWin && moves[selection] != winningMoves[move] {
+            result = true
+        } else {
+            result = false
+        }
+        
+        determineResult(result)
+    }
+    
+    func determineResult(_ result: Bool) {
+        questionsAsked += 1
+        
+        if result == true {
+            score += 1
+        }
+        
+        askQuestion()
+    }
+    
+    func askQuestion() {
+        if questionsAsked == 10 {
+            endOfGame = true
+        } else {
+            move = Int.random(in: 0...2)
+            shouldWin = Bool.random()
+        }
+    }
+    
+    func resetGame() {
+        score = 0
+        questionsAsked = 0
+        move = Int.random(in: 0...2)
+        shouldWin = Bool.random()
     }
 }
 

@@ -29,6 +29,8 @@ struct ContentView: View {
                 
                 Spacer()
                 
+                Text("Round \(questionsAsked + 1)")
+                    .font(.title2.bold())
                 Text("Computer picks...")
                     .font(.title)
                 Text("\(moves[move])")
@@ -84,8 +86,6 @@ struct ContentView: View {
     }
     
     func determineResult(_ result: Bool) {
-        questionsAsked += 1
-        
         if result == true {
             score += 1
         }
@@ -94,9 +94,10 @@ struct ContentView: View {
     }
     
     func askQuestion() {
-        if questionsAsked == 10 {
+        if questionsAsked == 9 {
             endOfGame = true
         } else {
+            questionsAsked += 1
             move = Int.random(in: 0...2)
             shouldWin = Bool.random()
         }

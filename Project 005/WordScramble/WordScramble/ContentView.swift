@@ -64,6 +64,16 @@ struct ContentView: View {
             return
         }
         
+        guard length(word: answer) else {
+            wordError(title: "Word too short", message: "It needs to be at least 3 letters long!")
+            return
+        }
+        
+        guard isNotRootWord(word: answer) else {
+            wordError(title: "Used root word", message: "You can't just use the root word!")
+            return
+        }
+        
         withAnimation {
             usedWords.insert(answer, at: 0)
         }
@@ -106,6 +116,14 @@ struct ContentView: View {
         let range = NSRange(location: 0, length: word.utf16.count)
         let misspelledRange = checker.rangeOfMisspelledWord(in: word, range: range, startingAt: 0, wrap: false, language: "en")
         return misspelledRange.location == NSNotFound
+    }
+    
+    func length(word: String) -> Bool {
+        word.count >= 3
+    }
+    
+    func isNotRootWord(word: String) -> Bool {
+        word != rootWord
     }
     
     func wordError(title: String, message: String) {

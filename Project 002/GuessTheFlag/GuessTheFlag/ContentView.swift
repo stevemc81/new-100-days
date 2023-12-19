@@ -25,6 +25,7 @@ struct ContentView: View {
     @State private var score = 0
     @State private var questionsAsked = 0
     @State private var endOfGame = false
+    @State private var selectedFlag = -1
     
     var body: some View {
         ZStack {
@@ -57,6 +58,12 @@ struct ContentView: View {
                         } label: {
                             FlagImage(image: countries[number])
                         }
+                        .rotation3DEffect(
+                            .degrees(selectedFlag == number ? 360 : 0), axis: (x: 0, y: 1, z: 0)
+                        )
+                        .opacity(selectedFlag == -1 || selectedFlag == number ? 1 : 0.2)
+                        .scaleEffect(selectedFlag == -1 || selectedFlag == number ? 1 : 0.8)
+                        .animation(.easeOut, value: selectedFlag)
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -96,6 +103,7 @@ struct ContentView: View {
             scoreTitle = "Wrong! That's the flag of \(countries[number])"
         }
         
+        selectedFlag = number
         showingScore = true
         questionsAsked += 1
     }
@@ -107,6 +115,7 @@ struct ContentView: View {
             countries.shuffle()
             correctAnswer = Int.random(in: 0...2)
         }
+        selectedFlag = -1
     }
     
     func resetGame() {
